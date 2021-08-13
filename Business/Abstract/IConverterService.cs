@@ -1,12 +1,15 @@
 ﻿using Entities.Concrete;
+using System.Collections.Generic;
 
 namespace Business.Abstract
 {
     public interface IConverterService
     {
-        CurrencyRate Rates { get; set; }
-        CurrencyRate GetCurrencyTypes();
+        Rate Rates { get; set; }
+        List<Currency> Currencies {get; set;}
 
-        int ConvertCurrencies(string currentCurrency, string targetCurrency, double amount);
+        List<Currency> GetCurrencies();
+
+        double ConvertCurrencies(string currentCurrency, string targetCurrency, double amount);
     }
 }

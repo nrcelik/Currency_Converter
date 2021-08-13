@@ -14,11 +14,20 @@ namespace CurrencyConverterAPI.Controllers
             _converterService = converterService;
         }
 
-        [HttpGet("index")]
-        public IActionResult Index()
+        [HttpGet("getcurrencytypes")]
+        public IActionResult GetCurrencyTypes()
         {
-           var result = _converterService.GetCurrencyTypes();
+           var result = _converterService.GetCurrencies();
             return Ok(result);
         }
+
+        [HttpGet("convertcurrencies")]
+        public IActionResult ConvertCurrencies()
+        {
+            GetCurrencyTypes();
+            var result = _converterService.ConvertCurrencies("TRY", "GBP", 10);
+            return Ok(result);
+        }
+
     }
 }
