@@ -1,11 +1,12 @@
-﻿using System.Net.Http;
+﻿using Entities.Concrete;
 
 namespace Business.Abstract
 {
     public interface IConverterService
     {
-        HttpResponseMessage GetCurrencyTypes();
+        CurrencyRate Rates { get; set; }
+        CurrencyRate GetCurrencyTypes();
 
-        void ConvertCurrencies();
+        int ConvertCurrencies(string currentCurrency, string targetCurrency, double amount);
     }
 }
