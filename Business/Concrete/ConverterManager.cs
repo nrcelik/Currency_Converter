@@ -10,7 +10,6 @@ namespace Business.Concrete
 {
     public class ConverterManager : IConverterService
     {
-        //****
         public Rate Rates { get; set; } = new Rate();
         public List<Currency> Currencies { get; set; } = new List<Currency>();
 
@@ -18,10 +17,9 @@ namespace Business.Concrete
         {
             using (HttpClient client = new HttpClient())
             {
-
                 client.BaseAddress = new Uri("http://data.fixer.io");
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                var response = client.GetAsync("/api/latest?access_key=94184938b2440eff5290ee5f3aaecfc3&format=1").Result;
+                var response = client.GetAsync("api/latest?access_key=5979df7ec69fcb9cf934f3272548093a&format=1").Result;
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -34,7 +32,7 @@ namespace Business.Concrete
                         {
                             CurrencyType = type.Key
                         });
-                    }             
+                    }
                 }
                 return Currencies;
             }
@@ -42,19 +40,21 @@ namespace Business.Concrete
 
         public double ConvertCurrencies(string currentCurrency, string targetCurrency, double amount)
         {
-           string price;
-            double result = 0;
+            double targetPrice;
+            double currentPrice;
+            double newAmount = 0;
 
             foreach (var item in Currencies)
             {
                 if (targetCurrency == item.CurrencyType)
                 {
-                     price =Rates.Rates.Where(p => p.Key == targetCurrency).Select(v => v.Value).FirstOrDefault();
-                    var test = Convert.ToDouble(price);
-                    result = amount * test;
+                    targetPrice = Convert.ToDouble(Rates.Rates.Where(p => p.Key == targetCurrency).Select(v => v.Value).FirstOrDefault());
+                    currentPrice = Convert.ToDouble(Rates.Rates.Where(p => p.Key == currentCurrency).Select(v => v.Value).FirstOrDefault());
+
+                    newAmount = (targetPrice / currentPrice) * amount;
                 }
-            } 
-            return result;
+            }
+            return newAmount;
         }
     }
 }

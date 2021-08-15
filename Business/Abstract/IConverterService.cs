@@ -6,7 +6,7 @@ namespace Business.Abstract
     public interface IConverterService
     {
         Rate Rates { get; set; }
-        List<Currency> Currencies {get; set;}
+        List<Currency> Currencies { get; set; }
 
         List<Currency> GetCurrencies();
 

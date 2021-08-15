@@ -17,17 +17,16 @@ namespace CurrencyConverterAPI.Controllers
         [HttpGet("getcurrencytypes")]
         public IActionResult GetCurrencyTypes()
         {
-           var result = _converterService.GetCurrencies();
+            var result = _converterService.GetCurrencies();
             return Ok(result);
         }
 
         [HttpGet("convertcurrencies")]
-        public IActionResult ConvertCurrencies()
+        public IActionResult ConvertCurrencies(string currentCurrency, string targetCurrency, double amount)
         {
             GetCurrencyTypes();
-            var result = _converterService.ConvertCurrencies("TRY", "GBP", 10);
+            var result = _converterService.ConvertCurrencies(currentCurrency, targetCurrency, amount);
             return Ok(result);
         }
-
     }
 }
